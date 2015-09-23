@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+
+
+<script>
+var mailsys="Netscape mail";
+var author="Andrew Rahn";
+
+function mailsome1(){
+	st1="Lucy had a very ";
+	st2=" day! She  ";
+	st3=" sticks in the morning, ";
+	st4=" at a "; 
+	st5=" at lunchtime and chased her ";
+	st6=" all afternoon. All of this playing made her so hungry she could eat a ";
+	st7=", so she decided to have her favorite snack, a ";
+	st8=".  She ran inside, but she was too late!  Andy ate the last ";
+	st9=" for breakfast!  Oh no!  Lucy thought and thought.  '";
+	st10="' she said, 'I know that ";
+	st11="s grow on ";
+	st12="s!  I'll just go and find a ";
+	st13="!'  She ";
+	st14=" all the way to ";
+	st15=" and found a ";
+	st16=" growing on top of a ";
+	st17=", but it was too ";
+	st18=" and she couldn't reach the ";
+	st19="s!  'I'll climb the ";
+	st20=",' she said.   She climbed and climbed.  When she got to the top, she hung on by one ";
+	st21=" and ";
+	st22=" down towards the ";
+	st23="s.  Got one!  Lucy leapt off of the ";
+	st24=" and ";
+	st25=" her snack!  It was the best ";
+	st26=" she ever tasted!";
+	
+
+	document.working.MailField.value = "";
+	document.working.MailField.value += st1 + document.contest.adj1.value;
+	document.working.MailField.value += st2 + document.contest.verbed1.value;
+	document.working.MailField.value += st3 + document.contest.verbed2.value;
+	document.working.MailField.value += st4 + document.contest.noun1.value;
+	document.working.MailField.value += st5 + document.contest.noun2.value;
+	document.working.MailField.value += st6 + document.contest.animal.value;
+	document.working.MailField.value += st7 + document.contest.food.value;
+	document.working.MailField.value += st8 + document.contest.food.value;
+	document.working.MailField.value += st9 + document.contest.inter.value;
+	document.working.MailField.value += st10 + document.contest.food.value;
+	document.working.MailField.value += st11 + document.contest.noun3.value;
+	document.working.MailField.value += st12 + document.contest.food.value;
+	document.working.MailField.value += " " + document.contest.noun3.value;
+	document.working.MailField.value += st13 + document.contest.verbed3.value;
+	document.working.MailField.value += st14 + document.contest.place.value;
+	document.working.MailField.value += st15 + document.contest.noun3.value;
+	document.working.MailField.value += st16 + document.contest.noun4.value;
+	document.working.MailField.value += st17 + document.contest.adj2.value;
+	document.working.MailField.value += st18 + document.contest.food.value;
+	document.working.MailField.value += st19 + document.contest.noun3.value;
+	document.working.MailField.value += st20 + document.contest.body.value;
+	document.working.MailField.value += st21 + document.contest.verbed4.value;
+	document.working.MailField.value += st22 + document.contest.food.value;
+	document.working.MailField.value += st23 + document.contest.noun3.value;
+	document.working.MailField.value += st24 + document.contest.verbed5.value;
+	document.working.MailField.value += st25 + document.contest.food.value;
+	document.working.MailField.value += st26;
+	return 0;
+}
+</script>
+
+<TITLE>Mad Libs!</TITLE>
+</HEAD>
+<BODY LINK="red" VLINK="blue" BGCOLOR="cornsilk" TEXT="orangered">
+<BODY>
+<CENTER><IMG SRC="madbanana.gif"><BR><HR>
+<FONT SIZE=4>Fill in the boxes with the appropriate word and then click on the button "Click Here" to see your story.</FONT></CENTER><BR>
+<form name="contest">
+
+<TABLE><TR><TD>
+<UL>
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed4">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun4">
+	<LI>  Animal <INPUT TYPE=textfield NAME="animal">
+	<LI>  Place <INPUT TYPE=textfield NAME="place">
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed5">
+	<LI>  Food <INPUT TYPE=textfield NAME="food">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun2">
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed2"></UL>
+</TD><TD><UL>
+	<LI>  Adjective <INPUT TYPE=textfield NAME="adj1">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun1">
+	<LI>  Interjection <INPUT TYPE=textfield NAME="inter">
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed3">
+	<LI>  Body part <INPUT TYPE=textfield NAME="body">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun3">
+	<LI>  Adjective <INPUT TYPE=textfield NAME="adj2">
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed1">
+</UL></TD></TR></TABLE>
+
+<CENTER> <input type="reset" name="clear"></CENTER></form>
+
+<form name="working" action="" method="POST" ENCTYPE="text/plain">
+<CENTER>
+ <input type="button" name="Click Here" value="Click Here" onClick="return mailsome1();"><BR>
+<TEXTAREA NAME="MailField" cols="80" rows="15" VALUE="" WRAP=TRUE></TEXTAREA>
+</CENTER>
+</form>
+
+<HR>
+<BR><HR>
+A knee-slapper from Eric:<BR>
+	Once upon a time, Lucy went for a walk.  First she plastered some fences and barked at a biscuit.  Suddenly, Bubba the fox from upstairs jumped out and knuckled!  Soon, however, they became friends.  Together they started towards Vermillion when they spied 87 scorned dumbells looming on the sidewalk.  'Phooey!'  shouted Lucy.  Bubba ran to the left, and Lucy ran to the right, and soon they had the dumbells cornered.  They were about to tear the dumbells limb from limb when Andy and Becka said 'Lucy, get over here'.  And when Lucy came in she got a big treat, a '57 Vincet Black Lightning!  Boy, did Lucy sleep well that night!<BR><HR>
+<CENTER>
+<A HREF="../../"><IMG BORDER=0 SRC="../../Everypage/back.gif"></A>
+</CENTER>
+</BODY>
+</HTML>

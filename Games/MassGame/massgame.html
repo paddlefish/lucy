@@ -1,0 +1,122 @@
+<HEAD>
+
+<SCRIPT>
+
+addImg("banana");
+addImg("bone");
+addImg("bowl");
+addImg("cereal");
+addImg("chip");
+addImg("dogfood");
+addImg("heavy");
+addImg("light");
+addImg("right");
+addImg("rock");
+addImg("scale");
+addImg("treat");
+addImg("twig");
+addImg("blank");
+shelf = new shelfObj();
+weights = new weightsObj();
+score = 0;
+
+function shelfObj() {
+	this.rock = 1;
+	this.twig = 1;
+	this.treat = 1;
+	this.chip = 1;
+	this.banana = 1;
+	this.cereal = 1;
+	this.bone = 1;
+	this.dogfood = 1;
+}
+
+function weightsObj() {
+	this.rock = 1;
+	this.twig = 2;
+	this.treat = 4;
+	this.chip = 8;
+	this.banana = 16;
+	this.cereal = 32;
+	this.bone = 64;
+	this.dogfood = 128;
+	this.answer = Math.round(Math.random()*256);
+}
+
+function addImg(imageName) {
+	img=new Image();
+	img.src = imageName+".gif";
+	eval(imageName+" = img;");
+}
+
+function addItem(itemName) {
+	if (eval("shelf."+itemName)==1) {
+		eval("shelf."+itemName+" = 0")
+		eval("document['"+itemName+"Shelf'].src = blank.src");
+		eval("document['"+itemName+"Bowl'].src = "+itemName+".src");
+		score = score + eval("weights."+itemName);
+		return checkScore();
+	}
+	return false;
+}
+
+function removeItem(itemName) {
+	if (eval("shelf."+itemName)==0) {
+		eval("shelf."+itemName+" = 1")
+		eval("document['"+itemName+"Bowl'].src = blank.src");
+		eval("document['"+itemName+"Shelf'].src = "+itemName+".src");
+		score = score - eval("weights."+itemName);
+		return checkScore();
+	}
+	return false;
+}
+
+function checkScore() {
+	if (score > weights.answer) {
+		document["meter"].src = heavy.src;
+	}
+	if (score < weights.answer) {
+		document["meter"].src = light.src;
+	}
+	if (score == weights.answer) {
+		document["meter"].src = right.src;
+		return true;
+	}
+	return false;
+}
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR="white">
+<CENTER>
+<A HREF="win.html" onClick="return addItem('banana');"><IMG BORDER=0 SRC="banana.gif" NAME="bananaShelf"></A>
+<A HREF="win.html" onClick="return addItem('bone');"><IMG BORDER=0 SRC="bone.gif" NAME="boneShelf"></A>
+<A HREF="win.html" onClick="return addItem('cereal');"><IMG BORDER=0 SRC="cereal.gif" NAME="cerealShelf"></A>
+<A HREF="win.html" onClick="return addItem('chip');"><IMG BORDER=0 SRC="chip.gif" NAME="chipShelf"></A>
+<A HREF="win.html" onClick="return addItem('dogfood');"><IMG BORDER=0 SRC="dogfood.gif" NAME="dogfoodShelf"></A>
+<A HREF="win.html" onClick="return addItem('rock');"><IMG BORDER=0 SRC="rock.gif" NAME="rockShelf"></A>
+<A HREF="win.html" onClick="return addItem('treat');"><IMG BORDER=0 SRC="treat.gif" NAME="treatShelf"></A>
+<A HREF="win.html" onClick="return addItem('twig');"><IMG BORDER=0 SRC="twig.gif" NAME="twigShelf"></A>
+</CENTER>
+
+<BR>
+<CENTER><IMG SRC="line.jpeg"></CENTER>
+<TABLE>
+<TR>
+<TD>
+<IMG SRC="light.gif" NAME="meter"><BR><IMG SRC="scale.gif"></TD>
+<TD>
+<A HREF="win.html" onClick="return removeItem('banana');"><IMG BORDER=0 SRC="blank.gif" NAME="bananaBowl"></A>
+<A HREF="win.html" onClick="return removeItem('bone');"><IMG BORDER=0 SRC="blank.gif" NAME="boneBowl"></A>
+<A HREF="win.html" onClick="return removeItem('cereal');"><IMG BORDER=0 SRC="blank.gif" NAME="cerealBowl"></A>
+<A HREF="win.html" onClick="return removeItem('chip');"><IMG BORDER=0 SRC="blank.gif" NAME="chipBowl"></A><BR>
+<A HREF="win.html" onClick="return removeItem('dogfood');"><IMG BORDER=0 SRC="blank.gif" NAME="dogfoodBowl"></A>
+<A HREF="win.html" onClick="return removeItem('rock');"><IMG BORDER=0 SRC="blank.gif" NAME="rockBowl"></A>
+<A HREF="win.html" onClick="return removeItem('treat');"><IMG BORDER=0 SRC="blank.gif" NAME="treatBowl"></A>
+<A HREF="win.html" onClick="return removeItem('twig');"><IMG BORDER=0 SRC="blank.gif" NAME="twigBowl"></A>
+<BR>
+<IMG SRC="bowl.gif">
+</TD>
+</TR>
+</TABLE>
+</BODY>

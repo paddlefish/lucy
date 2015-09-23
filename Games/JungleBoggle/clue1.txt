@@ -1,0 +1,1 @@
+next=clue2.txt&clue=These+insects+"drive"+me+wild&word=BEETLE&grid=%20%20%20%20%20%20%20MOTQ%20%20JESB%20%20LAEU%20%20ITEG%20%20%20%20%20%20%20

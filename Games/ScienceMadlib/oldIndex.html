@@ -1,0 +1,106 @@
+<HTML>
+<HEAD>
+
+
+<script>
+var mailsys="Netscape mail";
+var author="Andrew Rahn";
+
+function mailsome1(){
+	st1="One day, Lucy decided to conduct a scientific experiment.  She wanted to find out the temperature at which a ";
+	st2=" boils.  She went to the ";
+	st3=", got out a ";
+	st4=" and filled it full of "; 
+	st5="s.  But that wasn't ";
+	st6=" enough, so she added a ";
+	st7=" of ";
+	st8="s and some ";
+	st9=".  Then, she put the ";
+	st10=" on the ";
+	st11=" to boil.  She waited and waited.  Finally the ";
+	st12=" started to boil.  The bubbles got so ";
+	st13=" they looked like they were going to spill right over the sides of the ";
+	st14=".  Lucy didn't know what to do.  First, she ";
+	st15=" at the ";
+	st16=" to try to scare the bubbles, but nothing happened.  Then, she tried pulling the ";
+	st17=" off the ";
+	st18=", but it was too ";
+	st19=".  Suddenly, Andy came in and saw the mess.  He turned off the ";
+	st20=" and said,'Don't you know ";
+	st21=" boils at ";
+	st22="s Farenheit.'  'Really?' asked Lucy. 'I guess I didn't need to boil ";
+	st23=" after all!'";
+	
+	
+
+	document.working.MailField.value = "";
+	document.working.MailField.value += st1 + document.contest.noun1.value;
+	document.working.MailField.value += st2 + document.contest.room.value;
+	document.working.MailField.value += st3 + document.contest.adj.value;
+	document.working.MailField.value += " " + document.contest.container.value;
+	document.working.MailField.value += st4 + document.contest.noun1.value;
+	document.working.MailField.value += st5 + document.contest.adj2.value;
+	document.working.MailField.value += st6 + document.contest.unit.value;
+	document.working.MailField.value += st7 + document.contest.noun3.value;
+	document.working.MailField.value += st8 + document.contest.noun4.value;
+	document.working.MailField.value += st9 + document.contest.container.value;
+	document.working.MailField.value += st10 + document.contest.appliance.value;
+	document.working.MailField.value += st11 + document.contest.noun1.value;
+	document.working.MailField.value += st12 + document.contest.adj3.value;
+	document.working.MailField.value += st13 + document.contest.container.value;
+	document.working.MailField.value += st14 + document.contest.verbed.value;
+	document.working.MailField.value += st15 + document.contest.container.value;
+	document.working.MailField.value += st16 + document.contest.container.value;
+	document.working.MailField.value += st17 + document.contest.appliance.value;
+	document.working.MailField.value += st18 + document.contest.adj4.value;
+	document.working.MailField.value += st19 + document.contest.appliance.value;
+	document.working.MailField.value += st20 + document.contest.noun1.value;
+	document.working.MailField.value += st21 + document.contest.number.value;
+	document.working.MailField.value += " " + document.contest.unit2.value;
+	document.working.MailField.value += st22 + document.contest.noun1.value;
+	document.working.MailField.value += st23;
+}
+</script>
+
+<TITLE>Mad Libs!</TITLE>
+</HEAD>
+<BODY LINK="red" VLINK="blue" BGCOLOR="honeydew" TEXT="darkgreen">
+<BODY>
+<CENTER><IMG SRC="madlib.jpeg"><BR><HR>
+<FONT SIZE=4>Fill in the boxes with the appropriate word and then click on the button "Click Here" to see your story.</FONT></CENTER><BR>
+<form name="contest">
+
+<TABLE><TR><TD>
+<UL>
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun3">
+	<LI>  Adjective <INPUT TYPE=textfield NAME="adj3">
+	<LI>  Unit of Measure<INPUT TYPE=textfield NAME="unit2">
+	<LI>  Container <INPUT TYPE=textfield NAME="container">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun1">
+	<LI>  Adjective <INPUT TYPE=textfield NAME="adj"></UL>
+</TD><TD><UL>
+	<LI>  Number <INPUT TYPE=textfield NAME="number">
+	<LI>  Appliance <INPUT TYPE=textfield NAME="appliance">
+	<LI>  Adjective<INPUT TYPE=textfield NAME="adj2">
+	<LI>  Room <INPUT TYPE=textfield NAME="room">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun4">
+	<LI>  Adjective <INPUT TYPE=textfield NAME="adj4">
+	<LI>  Unit of Measure<INPUT TYPE=textfield NAME="unit">
+</UL></TD></TR></TABLE>
+
+<CENTER> <input type="reset" name="clear"></CENTER></form>
+
+<form name="working">
+<CENTER>
+ <input type="button" name="Click Here" value="Click Here" onClick="mailsome1()"><BR>
+<TEXTAREA NAME="MailField" cols="80" rows="15" VALUE="" WRAP=TRUE></TEXTAREA>
+</CENTER>
+</form>
+
+<HR>
+<CENTER>
+<A HREF="/~rahn/lucy/"><IMG BORDER=0 SRC="/~rahn/lucy/Everypage/back.gif"></A>
+</CENTER>
+</BODY>
+</HTML>

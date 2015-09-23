@@ -1,0 +1,1 @@
+next=clue5.txt&clue=The rare flower,+dendrobium+thunderpawii,+smells+just+like+me!&word=ORCHID&grid=%20%20%20%20%20%20%20EAMH%20%20RCUS%20%20OHDL%20%20SIBE%20%20%20%20%20%20%20

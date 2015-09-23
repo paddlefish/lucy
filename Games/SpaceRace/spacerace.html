@@ -1,0 +1,305 @@
+<HEAD>
+<SCRIPT>
+addImg("go");
+addImg("stop");
+addImg("go1waitl");
+addImg("go2waitl");
+addImg("player1l");
+addImg("player2l");
+addImg("waiting1l");
+addImg("waiting2l");
+addImg("go1waitr");
+addImg("go2waitr");
+addImg("player1r");
+addImg("player2r");
+addImg("waiting1r");
+addImg("waiting2r");
+addImg("crimson");
+addImg("limegreen");
+addImg("dodgerblue");
+addImg("aqua");
+addImg("blueviolet");
+addImg("comet");
+addImg("crater");
+addImg("blank");
+
+spinner = new spinnerObj();
+targetColor = "";
+lucy = new player(1);
+bob = new player(2);
+bob.other = lucy;
+lucy.other = bob;
+currentPlayer = lucy;
+
+function myGo() {
+	if (targetColor != "") {
+		currentPlayer.move(currentPlayer.space + 1);
+		if (spaceColor(currentPlayer.space) == targetColor) {
+			targetColor = "";
+			document['theButton'].src = stop.src;
+			currentPlayer.swap();
+		}
+	}
+	else {
+		alert("You can't move again!");
+	}
+	return false;
+}
+
+function win() {
+	if (lucy.space == 32) {
+		location.href="lucywin.html";
+	}
+	if (bob.space == 32) {
+		location.href="bobwin.html";
+	}
+	return false;
+}
+
+function spaceColor(space) {
+  if (space % 5 == 1) {
+    return "aqua";
+  }
+  if (space % 5 == 2) {
+    return "crimson";
+  }
+  if (space % 5 == 3) {
+    return "dodgerblue";
+  }
+  if (space % 5 == 4) {
+    return "limegreen";
+  }
+  if (space % 5 == 0) {
+    return "blueviolet";
+  }
+}
+
+function player(number) {
+	this.id = number;
+	this.space = 1;
+	this.oldSpace = 1;
+	this.move = playerMove;
+	this.draw = playerDraw;
+	this.other = this;
+	this.swap = playerSwap;
+	this.chiral = "l";
+}
+
+function playerSwap() {
+	currentPlayer = currentPlayer.other;
+	currentPlayer.draw();
+	currentPlayer.other.draw();
+}
+
+function playerMove(toSpace) {
+	this.oldSpace = this.space;
+	this.space = toSpace;
+	this.draw();
+	if (Math.round((this.space)/8 - 0.51)%2 == 1) {
+		this.chiral = "r";
+	}
+	else {
+		this.chiral = "l";
+	}
+}
+
+function playerDraw() {
+	if (this.oldSpace != this.space) {
+		eval("document['n" + this.oldSpace + "'].src = " +spaceColor(this.oldSpace) + ".src;");
+		if (this.oldSpace == this.other.space) {
+			if (this.other == currentPlayer) {
+				eval("document['n" + this.oldSpace + "'].src = player"
+					+this.other.id + this.other.chiral + ".src");
+			}
+			else {
+				eval("document['n"+this.oldSpace+"'].src = waiting" 
+					+this.other.id + this.other.chiral+".src");		
+			}
+		}
+		else {
+			eval("document['n" + this.oldSpace + "'].src = blank.src");
+		}
+	}
+	eval("document['n"+this.space+"'].src = " + spaceColor(this.space) + ".src");
+	if (this.other.space == this.space) {
+		eval("document['n"+this.space+"'].src = go" + this.id + "wait"+this.chiral+".src;");
+	}
+	else {
+		if (this == currentPlayer) {
+			eval("document['n"+this.space+"'].src = player" + this.id + this.chiral+ ".src;");
+		}
+		else {
+			eval("document['n"+this.space+"'].src = waiting" + this.id + this.chiral+ ".src;");
+		}
+	}
+}
+
+function addImg(imageName) {
+	img=new Image();
+	img.src = imageName+".gif";
+	eval(imageName+" = img;");
+}
+
+function pathPiece(color, number) {
+	this.color = color;
+	this.number = number;
+	document["n25"].bgColor=color;
+	
+	return this;
+}
+
+function spinnerObj() {
+	this.value = 1;
+	this.part = makeArray(6);
+	this.part[0] = "crimson";
+	this.part[1] = "limegreen";
+	this.part[2] = "crater";
+	this.part[3] = "aqua";
+	this.part[4] = "blueviolet";
+	this.part[5] = "comet";
+	this.part[6] = "dodgerblue";
+	this.go = spin;
+	return this;
+}
+
+function spin() {
+	if (targetColor != "") {
+		alert("Finish your move, "+ ((currentPlayer.id==1) ? "Lucy" : "Bob")+".");
+		return false;
+	}
+	count = 5 + Math.round(Math.random() * 14);
+	this.value = (this.value+4)%7;
+	for(i = 0; i < count; i++) {
+		for(o = 1; o <= 5; o++) {
+			imgIndex = (o+i+this.value)%7;
+			eval("document['spin"+o+"'].src = " + this.part[imgIndex] + ".src;");
+		}
+		for(bonehead = 0; bonehead < 800; bonehead++);
+	}
+	this.value = (count+this.value+2)%7;
+	if (this.value == 2) { // Crater
+		if ((currentPlayer.space >= 1)&&(currentPlayer.space <= 8)) {
+			currentPlayer.move(17-currentPlayer.space);
+		}
+		else if ((currentPlayer.space >= 9)&&(currentPlayer.space <= 16)) {
+			currentPlayer.move(33-currentPlayer.space);
+		}
+		else if ((currentPlayer.space >= 17)&&(currentPlayer.space <= 24)) {
+			currentPlayer.move(49-currentPlayer.space);
+		}
+		else if ((currentPlayer.space >= 25)&&(currentPlayer.space <= 32)) {
+			//  nothing happens, lose a turn though
+		}
+		currentPlayer.swap();
+	}
+	else if (this.value == 5) { // Comet
+		if ((currentPlayer.space >= 1)&&(currentPlayer.space <= 8)) {
+			//  nothing happens, lose a turn though
+		}
+		else if ((currentPlayer.space >= 9)&&(currentPlayer.space <= 16)) {
+			currentPlayer.move(17-currentPlayer.space);
+		}
+		else if ((currentPlayer.space >= 17)&&(currentPlayer.space <= 24)) {
+			currentPlayer.move(33-currentPlayer.space);
+		}
+		else if ((currentPlayer.space >= 25)&&(currentPlayer.space <= 32)) {
+			currentPlayer.move(49-currentPlayer.space);
+		}
+		currentPlayer.swap();
+	}
+	if ((this.value != 2)&&(this.value != 5)) {
+		targetColor = this.part[this.value];
+		document['theButton'].src = go.src;
+	}
+
+	return false;
+}
+
+function makeArray(n) {
+	this.len = n;
+	for (i = 0; i < n; i++) {
+		this[i] = 0;
+	}
+	return this;
+}
+</SCRIPT>
+
+</HEAD>
+<BODY BACKGROUND="space.jpeg" text="white">
+<TABLE CELLPADDING=0 BORDER=0 CELLSPACING=0><TR><TD><TABLE CELLPADDING=0 BORDER=0 CELLSPACING=0>
+  <TR>
+    <TD colspan=3><IMG BORDER=0 SRC="top.gif"></TD></TR>
+  <TR>
+    <TD><IMG BORDER=0 SRC="left.gif"></TD>
+    
+    <TD><TABLE CELLPADDING=0 BORDER=0 CELLSPACING=0>
+  <TR>
+		<TD BGCOLOR="dodgerblue"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n8"></TD>
+		<TD BGCOLOR="crimson"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n7"></TD>
+		<TD BGCOLOR="aqua"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n6"></TD>
+		<TD BGCOLOR="blueviolet"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n5"></TD>
+		<TD BGCOLOR="limegreen"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n4"></TD>
+		<TD BGCOLOR="dodgerblue"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n3"></TD>
+		<TD BGCOLOR="crimson"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n2"></TD>
+		<TD BGCOLOR="aqua"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n1"></TD>
+  </TR>
+  <TR><TD colspan=8><IMG BORDER=0 SRC="scene1.gif"></TD></TR>
+  <TR>
+		<TD BGCOLOR="limegreen"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n9"></TD>
+		<TD BGCOLOR="blueviolet"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n10"></TD>
+		<TD BGCOLOR="aqua"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n11"></TD>
+		<TD BGCOLOR="crimson"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n12"></TD>
+		<TD BGCOLOR="dodgerblue"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n13"></TD>
+		<TD BGCOLOR="limegreen"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n14"></TD>
+		<TD BGCOLOR="blueviolet"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n15"></TD>
+		<TD BGCOLOR="aqua"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n16"></TD>
+  </TR>
+
+  <TR><TD colspan=8><IMG BORDER=0 SRC="scene2.gif"></TD></TR>
+
+  <TR>
+		<TD BGCOLOR="limegreen"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n24"></TD>
+		<TD BGCOLOR="dodgerblue"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n23"></TD>
+		<TD BGCOLOR="crimson"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n22"></TD>
+		<TD BGCOLOR="aqua"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n21"></TD>
+		<TD BGCOLOR="blueviolet"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n20"></TD>
+		<TD BGCOLOR="limegreen"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n19"></TD>
+		<TD BGCOLOR="dodgerblue"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n18"></TD>
+		<TD BGCOLOR="crimson"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n17"></TD>
+  </TR>
+
+  <TR><TD colspan=8><IMG BORDER=0 SRC="scene3.gif"></TD></TR>
+
+  <TR>
+		<TD BGCOLOR="blueviolet"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n25"></TD>
+		<TD BGCOLOR="aqua"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n26"></TD>
+		<TD BGCOLOR="crimson"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n27"></TD>
+		<TD BGCOLOR="dodgerblue"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n28"></TD>
+		<TD BGCOLOR="limegreen"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n29"></TD>
+		<TD BGCOLOR="blueviolet"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n30"></TD>
+		<TD BGCOLOR="aqua"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n31"></TD>
+		<TD BGCOLOR="crimson"><IMG BORDER=0 SRC="blank.gif" WIDTH=46 HEIGHT=37 NAME="n32"></TD>
+  </TR></TABLE></TD>
+
+<TD><IMG BORDER=0 SRC="right1.gif"></TD></TR>
+<TR>
+<TD colspan=3 align=center><A HREF="" onMouseOver="window.status='click here to move'; return true;" onClick="myGo(); return win();"><IMG BORDER=0 SRC="stop.gif" NAME="theButton" WIDTH=45 HEIGHT=45></A></TD></TR></TABLE>
+</TD><TD><TABLE>
+<TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin5"></TD><TD></TD></TR>
+<TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin4"></TD><TD></TD></TR>
+<TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin3"></TD><TD><IMG BORDER=0 SRC="arrow.gif"></TD></TR>
+<TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin2"></TD><TD></TD></TR>
+<TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin1"></TD><TD></TD></TR>
+<TR><TD colspan=2><A HREF="spacerace.html" onMouseOver="window.status='click here to spin'; return true;" onClick="spinner.go(); return win();"><IMG BORDER=0 SRC="spin.gif"></A></TD></TR></TABLE></TD></TR>
+<TR>
+<TD colspan=2 ALIGN=CENTER></TD></TR></TABLE>
+
+
+
+<SCRIPT>
+  window.status="Please wait.....";
+  setTimeout("window.status=''; document['theButton'].src = stop.src; document['n32'].src = blank.src; lucy.draw();",1500);
+
+</SCRIPT>
+
+</BODY>

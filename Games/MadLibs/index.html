@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+
+
+<script>
+var mailsys="Netscape mail";
+var author="Andrew Rahn";
+
+function mailsome1(){
+	st1="Once upon a time, Lucy went for a walk.  First she ";
+	st2=" some ";
+	st3=" and barked at a ";
+	st4=".  Suddenly, "; 
+	st5=" the ";
+	st6=" from upstairs jumped out and ";
+	st7="!  Soon, however, they became friends.  Together they started towards ";
+	st8=" when they spied ";
+	st9=" looming on the sidewalk.  '";
+	st10="!'  shouted Lucy.  ";
+	st11=" ran to the left, and Lucy ran to the right, and soon they had the ";
+	st12=" cornered.  They were about to tear the ";
+	st13=" limb from limb when Andy and Becka said 'Lucy, get over here'.  And when Lucy came in she got a big treat, a ";
+	st14="!  Boy, did Lucy sleep well that night!";
+
+
+	document.working.MailField.value = "";
+	document.working.MailField.value += st1 + document.contest.verbed1.value;
+	document.working.MailField.value += st2 + document.contest.nouns1.value;
+	document.working.MailField.value += st3 + document.contest.noun1.value;
+	document.working.MailField.value += st4 + document.contest.myName.value;
+	document.working.MailField.value += st5 + document.contest.animal.value;
+	document.working.MailField.value += st6 + document.contest.verbed2.value;
+	document.working.MailField.value += st7 + document.contest.place.value;
+	document.working.MailField.value += st8 + document.contest.number.value;
+	document.working.MailField.value += " " + document.contest.adj1.value;
+	document.working.MailField.value += " " + document.contest.nouns2.value;
+	document.working.MailField.value += st9 + document.contest.inter.value;
+	document.working.MailField.value += st10 + document.contest.myName.value;
+	document.working.MailField.value += st11 + document.contest.nouns2.value;
+	document.working.MailField.value += st12 + document.contest.nouns2.value;
+	document.working.MailField.value += st13 + document.contest.noun2.value;
+	document.working.MailField.value += st14;
+}
+</script>
+
+<TITLE>Mad Libs!</TITLE>
+</HEAD>
+<BODY LINK="red" VLINK="blue" BGCOLOR="lightpink" TEXT="blueviolet">
+<BODY>
+<CENTER><IMG SRC="groucho.gif"><IMG SRC="madlib.gif"><BR><HR>
+<FONT SIZE=4>Fill in the boxes with the appropriate word and then click on the button "Click Here" to see your story.</FONT></CENTER><BR>
+<form name="contest">
+
+
+<OL>
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun1">
+	<LI>  Animal <INPUT TYPE=textfield NAME="animal">
+	<LI>  Noun (plural) <INPUT TYPE=textfield NAME="nouns1">
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed1">
+	<LI>  Name <INPUT TYPE=textfield NAME="myName">
+	<LI>  Noun (singular) <INPUT TYPE=textfield NAME="noun2">
+	<LI>  Adjective <INPUT TYPE=textfield NAME="adj1">
+	<LI>  Interjection <INPUT TYPE=textfield NAME="inter">
+	<LI>  Verb (past tense) <INPUT TYPE=textfield NAME="verbed2">
+	<LI>  Number <INPUT TYPE=textfield NAME="number">
+	<LI>  Noun (plural) <INPUT TYPE=textfield NAME="nouns2">
+	<LI>  Place <INPUT TYPE=textfield NAME="place">
+</OL>
+<CENTER> <input type="reset" name="clear"></CENTER></form>
+
+<form name="working" action="mailto:arahn@sunfish.usd.edu?subject=madlib" method="POST" ENCTYPE="text/plain">
+<CENTER>
+ <!-- <input type="submit" name="Click Here" value="Click Here" onClick="mailsome1()"><BR> -->
+ <input type="button" name="Click Here" value="Click Here" onClick="mailsome1()"><BR>
+<TEXTAREA NAME="MailField" cols="80" rows="10" VALUE="" WRAP=TRUE></TEXTAREA>
+</CENTER>
+</form>
+
+<HR><CENTER>
+<!--<FONT SIZE=3>A copy of your madlib is automatically entered in the "funniest madlib contest''--winners to be decided when we stop laughing!</FONT>-->
+<BR>
+<A HREF="../../"><IMG BORDER=0 SRC="../images/back.gif"></A>
+</CENTER>
+</BODY>
+</HTML>

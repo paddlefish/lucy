@@ -1,0 +1,1 @@
+next=clue4.txt&clue=My tail looks like it would be great for swinging from trees, but these guys do it better than me.&word=MONKEY&grid=%20%20%20%20%20%20%20LIPC%20%20KEMH%20%20YOKR%20%20GANU%20%20%20%20%20%20%20

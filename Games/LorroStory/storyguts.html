@@ -1,0 +1,136 @@
+<HTML>
+<HEAD>
+<SCRIPT>
+level = 0;
+
+function dynamicFrame(newstuff){
+	parent.frames[1].document.open();
+	text = ("<HTML>\n")
+	text = (text + newstuff)
+	text = (text +"</BODY>")
+	text = (text +"</HTML>")
+	parent.frames[1].document.write(text);
+	parent.frames[1].document.close();
+}
+
+function nextPage() {
+	page = 0;
+	if (level == page++) {
+		text = "<BODY BGCOLOR='#FFFFFF' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "<H1>Your Story</H1>";
+		text = text + "Fill in the blanks and then click on the blue pawprint to start your story.<BR>";
+		text = text + "<form name='contest'>";
+		text = text + "<OL>";
+		text = text + "<LI>  Your name <INPUT TYPE=textfield NAME='playerName' VALUE='" + playerName + "'>";
+		text = text + "<LI>  Animal <INPUT TYPE=textfield NAME='animal' VALUE='" + animal + "'>";
+		text = text + "<LI>  A name <INPUT TYPE=textfield NAME='name1' VALUE='" + name1 + "'>";
+		text = text + "<LI>  An adjective <INPUT TYPE=textfield NAME='adjective' VALUE='" + adjective + "'>";
+		text = text + "<LI>  Another name <INPUT TYPE=textfield NAME='name2' VALUE='" + name2 + "'>";
+		text = text + "<LI>  A town <INPUT TYPE=textfield NAME='town' VALUE='" + town + "'>";
+		text = text + "<LI>  A famous person <INPUT TYPE=textfield NAME='mapName' VALUE='" + mapName + "'>";
+		text = text + "<LI>  A thing <INPUT TYPE=textfield NAME='saloon' VALUE='" + saloon + "'>";
+		text = text + "</form>";
+	}
+	if (level == page++) {
+		// Read in data from form before destroying other page
+		playerName = parent.frames[1].document.contest.playerName.value;
+		name1 = parent.frames[1].document.contest.name1.value;
+		animal = parent.frames[1].document.contest.animal.value;
+		badGuy1 = name1 + " the " + animal;
+		adjective = parent.frames[1].document.contest.adjective.value;
+		name2 = parent.frames[1].document.contest.name2.value;
+		badGuy2 = adjective + " " + name2;
+		town = parent.frames[1].document.contest.town.value;
+		mapName = parent.frames[1].document.contest.mapName.value;
+		saloon = parent.frames[1].document.contest.saloon.value;
+		
+		text = "<BODY BGCOLOR='#FFFFFF' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "<CENTER><IMG SRC='titlepage.gif'><BR>by<BR>Lucy and " +
+				playerName;
+	}
+	if (level == page++) {
+		text = "<BODY BGCOLOR='#FF99CC' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "It was a hot, dusty day on the prarie and Lorro and her sidekick, " + 
+			playerName + ", were galloping over the hills.<P>";
+		text = text + "<CENTER><IMG SRC='lorrorides.gif' ALIGN='bottom'></CENTER>";
+	}
+	if (level == page++) {
+		text = "<BODY BGCOLOR='#22CC22' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "<IMG SRC='map.gif' ALIGN='right'>";
+		text = text + "<BR><BR><BR>Not far away a stagecoach, carrying the Lost Treasure Map of "
+			+ mapName + 
+			", was making its way to the little town of " + town + ".";
+	}
+	if (level == page++) {
+		text = "<BODY BGCOLOR='#33CCFF' TEXT='#0000AA'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "Little did the stagecoach driver know that "
+			+ badGuy1 + " and " + badGuy2 +
+			" were waiting for him there.<P>";
+		text = text + "<IMG SRC='Wanted1.gif' ALIGN='LEFT'><IMG SRC='Wanted2.gif' ALIGN='RIGHT'>";
+		text = text + "'The treasure map is gonna be ours!' said " + badGuy1
+			+ ".<P>'Hush!' said " + badGuy2 + ".  'They're almost here.'";
+	}
+	if (level == page++) {
+		text = "<BODY BACKGROUND='wagonBack.gif' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "<IMG SRC='wagon.gif' ALIGN='LEFT' BORDER='0'>";
+		text = text + "The stagecoach pulled up at The " + saloon
+			+ " Saloon and the bad guys jumped out.  'Hand over the Lost Treasure Map of "
+			+ mapName + ".' they shouted.";
+	}
+	if (level == page++) {
+		text = "<BODY BGCOLOR='#FFFF66' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "Just then Lorro and " + playerName
+			+ " jumped down from the top of the stagecoach. 'Not so fast!' said "
+			+ playerName + ".<BR>";
+		text = text + "<CENTER><IMG SRC='LorroSword.gif' ALIGN='BOTTOM' BORDER='0'></CENTER>";
+	}
+	if (level == page++) {
+		text = "<BODY BACKGROUND='sunset.gif' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + playerName + " grabbed the map while Lorro took care of the bad"
+			+ " guys.  'We'll make sure this map gets back to " + mapName
+			+ ",' said Lorro and they rode off into the sunset.";
+		text = text + "<CENTER><IMG SRC='LorroNFriend.gif' ALIGN='BOTTOM' BORDER='0'></CENTER>";
+	}
+	if (level == page++) {
+		text = "<BODY BGCOLOR='#FFFFFF' TEXT='#0000CC'>\n";
+		text = text + "<FONT SIZE=5>";
+		text = text + "<CENTER><IMG SRC='theend.gif'><CENTER>";
+	}
+	text = text + "</FONT>";
+	dynamicFrame(text);
+	level = level + 1;
+	if (level > 8) {
+		level = 0;
+	}
+}
+playerName = "";
+badGuy1 = "";
+name1 = "";
+animal = "";
+badGuy2 = "";
+adjective = "";
+name2 = "";
+badGuy2 = "";
+town = "";
+mapName = "";
+saloon = "";
+
+nextPage();
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#FFFFBB">
+<TABLE WIDTH=100% CELLPADDING=0 BORDER=0 CELLSPACING=0><TR>
+<TD ALIGN=LEFT><A HREF="/~rahn/lucy/" target="_top"><IMG SRC="backtolucypg.gif" BORDER=0 PADDING=0></A></TD>
+<TD ALIGN=CENTER><FONT SIZE=7 COLOR="#00AA00">Lucy's Storybook</FONT></TD>
+<TD ALIGN=RIGHT><A HREF onCLick="nextPage(); return false;"><IMG SRC="next.gif" BORDER=00 PADDING=0></A></TD>
+</TR></TABLE>
+</BODY>
+</HTML>
