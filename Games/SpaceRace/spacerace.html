@@ -24,6 +24,7 @@ addImg("crater");
 addImg("blank");
 
 spinner = new spinnerObj();
+spinCycle = 0;
 targetColor = "";
 lucy = new player(1);
 bob = new player(2);
@@ -134,6 +135,10 @@ function playerDraw() {
 	}
 }
 
+function setStatus(message) {
+	document.getElementById('messageArea').innerHTML = message;
+}
+
 function addImg(imageName) {
 	img=new Image();
 	img.src = imageName+".gif";
@@ -163,18 +168,29 @@ function spinnerObj() {
 }
 
 function spin() {
+	if (spinCycle > 0) {
+		return false;
+	}
 	if (targetColor != "") {
 		alert("Finish your move, "+ ((currentPlayer.id==1) ? "Lucy" : "Bob")+".");
 		return false;
 	}
 	count = 5 + Math.round(Math.random() * 14);
+	spinCycle = count;
 	this.value = (this.value+4)%7;
-	for(i = 0; i < count; i++) {
+	setTimeout( spinOnce.bind( this ), 100 );
+}
+
+function spinOnce() {
+	spinCycle = spinCycle - 1;
+	var i = count - spinCycle;
+	if( spinCycle > 0 ) {
 		for(o = 1; o <= 5; o++) {
 			imgIndex = (o+i+this.value)%7;
 			eval("document['spin"+o+"'].src = " + this.part[imgIndex] + ".src;");
 		}
-		for(bonehead = 0; bonehead < 800; bonehead++);
+		setTimeout( spinOnce.bind( this ), 100 );
+		return;
 	}
 	this.value = (count+this.value+2)%7;
 	if (this.value == 2) { // Crater
@@ -283,22 +299,23 @@ function makeArray(n) {
 
 <TD><IMG BORDER=0 SRC="right1.gif"></TD></TR>
 <TR>
-<TD colspan=3 align=center><A HREF="" onMouseOver="window.status='click here to move'; return true;" onClick="myGo(); return win();"><IMG BORDER=0 SRC="stop.gif" NAME="theButton" WIDTH=45 HEIGHT=45></A></TD></TR></TABLE>
+<TD colspan=3 align=center><A HREF="" onMouseOver="setStatus('click here to move'); return true;" onClick="myGo(); return win();"><IMG BORDER=0 SRC="stop.gif" NAME="theButton" WIDTH=45 HEIGHT=45></A></TD></TR></TABLE>
 </TD><TD><TABLE>
 <TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin5"></TD><TD></TD></TR>
 <TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin4"></TD><TD></TD></TR>
 <TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin3"></TD><TD><IMG BORDER=0 SRC="arrow.gif"></TD></TR>
 <TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin2"></TD><TD></TD></TR>
 <TR><TD><IMG BORDER=0 SRC="crimson.gif" name="spin1"></TD><TD></TD></TR>
-<TR><TD colspan=2><A HREF="spacerace.html" onMouseOver="window.status='click here to spin'; return true;" onClick="spinner.go(); return win();"><IMG BORDER=0 SRC="spin.gif"></A></TD></TR></TABLE></TD></TR>
+<TR><TD colspan=2><A HREF="spacerace.html" onMouseOver="setStatus('click here to spin'); return true;" onClick="spinner.go(); return win();"><IMG BORDER=0 SRC="spin.gif"></A></TD></TR></TABLE></TD></TR>
 <TR>
 <TD colspan=2 ALIGN=CENTER></TD></TR></TABLE>
+<DIV id='messageArea'></DIV>
 
 
 
 <SCRIPT>
-  window.status="Please wait.....";
-  setTimeout("window.status=''; document['theButton'].src = stop.src; document['n32'].src = blank.src; lucy.draw();",1500);
+  setStatus("Please wait.....");
+  setTimeout("setStatus(''); document['theButton'].src = stop.src; document['n32'].src = blank.src; lucy.draw();",1500);
 
 </SCRIPT>
 
