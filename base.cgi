@@ -133,7 +133,7 @@ my %replacements = ();
 open(IN, "template.html");
 while(<IN>) {
   foreach $pat (keys %replacements) {
-    s/{{$pat}}/$replacements{$pat}/g;
+    s/\{\{$pat}}/$replacements{$pat}/g;
   }
   print;
 }
