@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucy's Page</title>
+    <style>
+    .wrapper {
+      background-color: white;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    body {
+      background-color: grey;
+    }
+  </style>
+</head>
+<body>
+  <div id="content-placeholder"></div>
+
+  <script>
+    // Client-side JavaScript version of Perl CGI Theme Configurator
+    // Replaced placeholder data with actual themes and features
+
+    const themes = [
+      "General/Blowing", "General/Crazy", "General/DogCar", "General/duJour", "General/GreenSnoopy", "General/Groucho",
+      "General/Grover", "General/iLucy", "General/Latte", "General/lucysnow", "General/Olympics", "General/Oscar",
+      "General/Pointer", "General/Rainbow", "General/Shovel", "General/Soap", "General/Spelling", "General/Squares",
+      "Specific/Easter", "Specific/Irish", "Specific/NewYear", "Specific/Valentines"
+    ];
+
+    const themeSchedule = [
+      { id: "Specific/Valentines", start: "01-30", end: "02-15" },
+      { id: "Specific/Irish", start: "03-06", end: "03-18" },
+      
+      { id: "Specific/Easter", start: "04-01", end: "04-15" },
+      { id: "Specific/NewYear", start: "12-28", end: "01-03" }
+    ];
+
+    const featureSchedule = [
+      { id: "Features/Patricks", start: "03-03", end: "03-17" },
+      { id: "Features/FutureMadlib", start: "01-14", end: "01-25" },
+      { id: "Features/ValentineCraft", start: "02-01", end: "02-07" },
+      { id: "Features/Valentine", start: "02-08", end: "02-14" }
+    ];
+
+    const features = [
+      {
+        name: "Jokes",
+        url: "Games/Jokes/",
+        image: "Features/Jokes/picture.gif"
+      },
+      {
+        name: "BakingGame",
+        url: "Games/BakingGame/bonegame.pl",
+        image: "Features/BakingGame/picture.gif"
+      },
+      {
+        name: "FutureMadlib",
+        url: "Games/FutureMadlib/index.html",
+        image: "Features/FutureMadlib/picture.jpg"
+      },
+      {
+        name: "LorroStory",
+        url: "Games/LorroStory/",
+        image: "Features/LorroStory/picture.gif"
+      },
+      {
+        name: "MassGame",
+        url: "Games/MassGame/",
+        image: "Features/MassGame/picture.gif"
+      },
+      {
+        name: "Valentine",
+        url: "Games/Valentine/",
+        image: "Features/Valentine/picture.gif"
+      }
+    ];
+
+    // Function to initialize the theme configurator
+    async function initThemeConfigurator() {
+      const today = new Date();
+      const selectedTheme = getThemeForToday(today);
+      const selectedFeature = getFeatureForToday(today);
+
+      
+      // Load theme assets dynamically (e.g., images, gifs)
+      await loadThemeAssets(selectedTheme);
+      
+      // Add the feature content to the page
+      await addFeatureContent(selectedFeature);
+
+      // Render the HTML content in the placeholder div
+      renderContent();
+    }
+
+    // Function to get the appropriate theme for today
+    function getThemeForToday(today) {
+      for (const theme of themeSchedule) {
+        if (isDateInRange(today, theme.start, theme.end)) {
+          return theme.id;
+        }
+      }
+      // Default to a random theme if no schedule matches
+      return themes[randomIndex(themes.length, today.getTime())];
+    }
+
+    // Helper function to determine if today is within the start and end date fragments
+    function isDateInRange(today, startFragment, endFragment) {
+      const currentYear = today.getFullYear();
+      const startDate = new Date(`${currentYear}-${startFragment}`);
+      let endDate = new Date(`${currentYear}-${endFragment}`);
+
+      // Handle cases where the end date is in the following year (e.g., New Year)
+      if (endDate < startDate) {
+        endDate.setFullYear(currentYear + 1);
+      }
+
+      return today >= startDate && today <= endDate;
+    }
+
+    // Utility to calculate random index
+    function randomIndex(maxLength, randomizer) {
+      return randomizer % maxLength;
+    }
+
+    // Function to load theme assets
+    async function loadThemeAssets(theme) {
+      const assets = ["line.gif", "picture.gif", "title.gif", "background.gif", "button.gif"];
+      const replacements = {};
+      assets.forEach(file => {
+        const [shortcut] = file.split('.');
+        replacements[shortcut] = `Themes/${theme}/${file}`;
+      });
+      window.replacements = replacements; // Store for later use
+    }
+
+    // Function to add feature content to the page
+    async function getFeatureForToday(today) {
+      for (const feature of featureSchedule) {
+        if (isDateInRange(today, feature.start, feature.end)) {
+          return feature;
+        }
+      }
+      // Default to a random feature if no schedule matches
+      return features[randomIndex(features.length, today.getTime())];
+    }
+
+    function addFeatureContent(feature) {
+      const featureContent = `<a href="${feature.url}"><img src="${feature.image}" alt="${feature.name}"></a>`;
+      window.replacements = {
+        ...window.replacements,
+        "<!--feature-->": featureContent
+      };
+    }
+
+    // Function to render the final HTML content in the placeholder div
+    function renderContent() {
+      const replacements = window.replacements;
+      const content = `
+        <div class="wrapper" style="background: url('${replacements.background}');">
+          <basefont size="5">
+          <p><center><img src="${replacements.title}" align="bottom" border="0"></center></p>
+          <center><img src="${replacements.line}" align="bottom" border="0"></center>
+          <p>
+            <center>
+              <table border="0" cellspacing="2" cellpadding="0" width="600">
+                <tr valign="middle">
+                  <td width="100%">
+                    <div align="center">
+                      <img src="${replacements.picture}" align="bottom" border="0">
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <center>
+                      <basefont size="5">
+                      <table width="226" border="0" cellspacing="2" cellpadding="0">
+                        <tr>
+                          <td width="50%">
+                            <basefont size="5">
+                            <a href="Games/"><font size="+1"><img src="${replacements.button}" align="middle" border="0">Games</font></a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="50%">
+                            <basefont size="5">
+                            <a href="Photos/"><font size="+1"><img src="${replacements.button}" align="middle" border="0">Photos</font></a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="50%">
+                            <a href="Crafts/"><font size="+1"><img src="${replacements.button}" align="middle" border="0">Crafts</font></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div align="center">
+                      Lucy's Pick of the Day:<br clear="all">
+                      <img src="${replacements.line}" align="bottom" border="0" width="160" height="8" naturalsizeflag="2"><br clear="all">
+                      ${replacements["<!--feature-->"]}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </center>
+          <center>
+            <table width="401">
+              <tr>
+                <td valign="bottom" align="center">
+                  <a href="mailto:roodledog@yahoo.com"><img src="Everypage/write.gif" align="middle" border="0"></a>
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" align="center">
+                  <a href="mailto:rsrahn@yahoo.com">E-Mail Lucy</a>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </div>`;
+      document.getElementById('content-placeholder').innerHTML = content;
+    }
+
+    // Example usage: add an event listener to execute when DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", initThemeConfigurator);
+  </script>
+</body>
+</html>
