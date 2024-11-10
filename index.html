@@ -8,11 +8,21 @@
     .wrapper {
       background-color: white;
       max-width: 800px;
+      min-height: 745px;
       margin-left: auto;
       margin-right: auto;
     }
     body {
       background-color: grey;
+    }
+    /* Hide the debug buttons by default */
+    .debug_button {
+      display: none;
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      padding: 10px;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -20,15 +30,108 @@
   <div id="content-placeholder"></div>
 
   <script>
+    window.replacements = {};
     // Client-side JavaScript version of Perl CGI Theme Configurator
     // Replaced placeholder data with actual themes and features
 
+    // Create a 
     const themes = [
-      "General/Blowing", "General/Crazy", "General/DogCar", "General/duJour", "General/GreenSnoopy", "General/Groucho",
-      "General/Grover", "General/iLucy", "General/Latte", "General/lucysnow", "General/Olympics", "General/Oscar",
-      "General/Pointer", "General/Rainbow", "General/Shovel", "General/Soap", "General/Spelling", "General/Squares",
-      "Specific/Easter", "Specific/Irish", "Specific/NewYear", "Specific/Valentines"
-    ];
+      {
+        "id": "General/Blowing",
+        "images": "gif"
+      },
+      {
+        "id": "General/Crazy",
+        "images": "jpg"
+      },
+      {
+        "id": "General/DogCar",
+        "images": "jpg"
+      },
+      {
+        "id": "General/duJour",
+        "images": "gif"
+      },
+      {
+        "id": "General/GreenSnoopy",
+        "images": "gif"
+      },
+      {
+        "id": "General/Groucho",
+        "images": "gif"
+      },
+      {
+        "id": "General/Grover",
+        "images": "gif"
+      },
+      {
+        "id": "General/iLucy",
+        "images": "gif"
+      },
+      {
+        "id": "General/Latte",
+        "images": "gif"
+      },
+      {
+        "id": "General/lucysnow",
+        "images": "gif"
+      },
+      {
+        "id": "General/Olympics",
+        "images": "gif"
+      },
+      {
+        "id": "General/Oscar",
+        "images": "gif"
+      },
+      {
+        "id": "General/Pointer",
+        "images": "gif"
+      },
+      {
+        "id": "General/Rainbow",
+        "images": [
+          "line.gif",
+          "picture.gif",
+          "title.gif",
+          "background.gif",
+          "button.gif"
+        ]
+      },
+      {
+        "id": "General/Shovel",
+        "images": "jpg"
+      },
+      {
+        "id": "General/Soap",
+        "images": "jpg"
+      },
+      {
+        "id": "General/Spelling",
+        "images": "gif"
+      },
+      {
+        "id": "General/Squares",
+        "images": "gif"
+      },
+      {
+        "id": "Specific/Easter",
+        "images": "gif"
+      },
+      {
+        "id": "Specific/Irish",
+        "images": "gif"
+      },
+      {
+        "id": "Specific/NewYear",
+        "images": "gif"
+      },
+      {
+        "id": "Specific/Valentines",
+        "images": "gif"
+      }
+    ]
+;
 
     const themeSchedule = [
       { id: "Specific/Valentines", start: "01-30", end: "02-15" },
@@ -82,7 +185,8 @@
     async function initThemeConfigurator() {
       const today = new Date();
       const selectedTheme = getThemeForToday(today);
-      const selectedFeature = getFeatureForToday(today);
+      window.selectedTheme = selectedTheme.id;
+      const selectedFeature = await getFeatureForToday(today);
 
       
       // Load theme assets dynamically (e.g., images, gifs)
@@ -91,8 +195,29 @@
       // Add the feature content to the page
       await addFeatureContent(selectedFeature);
 
+      // Add event listener for custom event "selectNextTheme"
+      document.addEventListener("selectNextTheme", () => {
+        const selectedTheme = window.selectedTheme
+        const nextThemeIndex = (themes.findIndex(theme => theme.id === selectedTheme) + 1) % themes.length;
+        const nextTheme = themes[nextThemeIndex];
+        window.selectedTheme = nextTheme.id;
+
+        loadThemeAssets(nextTheme).then(() => {
+          renderContent();
+        });
+      });
+
       // Render the HTML content in the placeholder div
       renderContent();
+    }
+
+    function selectNextTheme() {
+      document.dispatchEvent(new Event("selectNextTheme"));
+    }
+
+    function clearTheme() {
+      localStorage.removeItem('theme');
+      localStorage.removeItem('feature');
     }
 
     // Function to get the appropriate theme for today
@@ -103,7 +228,7 @@
         }
       }
       // Default to a random theme if no schedule matches
-      return themes[randomIndex(themes.length, today.getTime())];
+      return themes[getRandomNumber(themes.length, 'theme')];
     }
 
     // Helper function to determine if today is within the start and end date fragments
@@ -127,13 +252,40 @@
 
     // Function to load theme assets
     async function loadThemeAssets(theme) {
-      const assets = ["line.gif", "picture.gif", "title.gif", "background.gif", "button.gif"];
+      console.log("Current theme:", theme.id);
+
+      const assets = typeof theme.images === 'object' ? theme.images : [`line.${theme.images}`, `picture.${theme.images}`, `title.${theme.images}`, `background.${theme.images}`, `button.${theme.images}`];
       const replacements = {};
       assets.forEach(file => {
         const [shortcut] = file.split('.');
-        replacements[shortcut] = `Themes/${theme}/${file}`;
+        replacements[shortcut] = `Themes/${theme.id}/${file}`;
       });
-      window.replacements = replacements; // Store for later use
+      window.replacements = {...window.replacements, ...replacements}; // Store for later use
+    }
+
+    function getRandomNumber(length, key) {
+      let cachedData;
+      try {
+      cachedData = JSON.parse(localStorage.getItem(key));
+      } catch (e) {
+      cachedData = null;
+      }
+
+      const today = new Date();
+      const todayString = today.toLocaleDateString(); // Use browser's local timezone
+
+      if (cachedData && cachedData.date === todayString) {
+      return cachedData.value;
+      }
+
+      const randomNumber = Math.floor(Math.random() * length);
+      const newCacheData = {
+      value: randomNumber,
+      date: todayString
+      };
+
+      localStorage.setItem(key, JSON.stringify(newCacheData));
+      return randomNumber;
     }
 
     // Function to add feature content to the page
@@ -144,14 +296,14 @@
         }
       }
       // Default to a random feature if no schedule matches
-      return features[randomIndex(features.length, today.getTime())];
+      return features[getRandomNumber(features.length, 'feature')];
     }
 
-    function addFeatureContent(feature) {
+    async function addFeatureContent(feature) {
       const featureContent = `<a href="${feature.url}"><img src="${feature.image}" alt="${feature.name}"></a>`;
       window.replacements = {
         ...window.replacements,
-        "<!--feature-->": featureContent
+        "feature": featureContent
       };
     }
 
@@ -202,7 +354,7 @@
                     <div align="center">
                       Lucy's Pick of the Day:<br clear="all">
                       <img src="${replacements.line}" align="bottom" border="0" width="160" height="8" naturalsizeflag="2"><br clear="all">
-                      ${replacements["<!--feature-->"]}
+                      ${replacements["feature"] ?? JSON.stringify(replacements)}
                     </div>
                   </td>
                 </tr>
@@ -212,12 +364,12 @@
             <table width="401">
               <tr>
                 <td valign="bottom" align="center">
-                  <a href="mailto:roodledog@yahoo.com"><img src="Everypage/write.gif" align="middle" border="0"></a>
+                  <a href="https://beckarahn.com"><img src="Everypage/write.gif" align="middle" border="0"></a>
                 </td>
               </tr>
               <tr>
                 <td valign="top" align="center">
-                  <a href="mailto:rsrahn@yahoo.com">E-Mail Lucy</a>
+                  <a href="https://beckarahn.com">E-Mail Lucy</a>
                 </td>
               </tr>
             </table>
@@ -229,5 +381,11 @@
     // Example usage: add an event listener to execute when DOM is fully loaded
     document.addEventListener("DOMContentLoaded", initThemeConfigurator);
   </script>
+
+<div class="debug_button">
+  <button onclick="clearTheme()">Clear Theme</button>
+  <button onclick="selectNextTheme()">Next Theme</button>
+</div>
+
 </body>
 </html>
